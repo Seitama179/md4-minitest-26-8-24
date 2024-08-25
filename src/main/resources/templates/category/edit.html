@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>Chỉnh sửa thể loại sách</h2>
+<p><a th:href="@{/books/categories}">Thể loại sách</a></p>
+
+<div id="form">
+    <form th:action="@{/books/categories/update}" th:object="${category}"
+          method="post" novalidate="novalidate" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{id}" />
+        <div>
+            <label for="name">Tên: </label>
+            <input type="text" id="name" th:field="*{name}" required/>
+        </div>
+        <input type="submit" value="Sửa"/>
+    </form>
+</div>
+</body>
+</html>

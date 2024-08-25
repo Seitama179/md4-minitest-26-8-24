@@ -1,0 +1,35 @@
+package com.example.minitestbook.service;
+
+import com.example.minitestbook.model.Category;
+import com.example.minitestbook.repository.ICategoryRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+@Service
+public class CategoryService implements ICategoryService {
+    @Autowired
+    private ICategoryRepository categoryRepository;
+
+    @Override
+    public Page<Category> findAll(Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public Iterable<Category> findAll() {
+        return categoryRepository.findAll();
+    }
+
+    @Override
+    public void update(Long id, Category category) {
+        categoryRepository.save(category);
+    }
+
+    @Override
+    public void remove(Long id) {
+        categoryRepository.deleteById(id);
+    }
+
+}

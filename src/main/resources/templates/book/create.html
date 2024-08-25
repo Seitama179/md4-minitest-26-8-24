@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add new book</title>
+    <style>
+        form {
+            border-collapse: collapse;
+        }
+    </style>
+</head>
+<body>
+<h2>Thêm sách mới</h2>
+<a th:href="@{/books}">Quay lại danh sách</a>
+<form th:action="@{/books/create}" th:object="${books}" method="post"
+      novalidate="novalidate" enctype="multipart/form-data">
+    <input type="hidden" th:field="*{id}"/>
+    <div>
+        <label for="name">Tên: </label>
+        <input type="text" id="name" name="name" required/>
+    </div>
+    <div>
+        <label for="author">Tác giả: </label>
+        <input type="text" id="author" name="author" required/>
+    </div>
+    <div>
+        <label for="price">Giá: </label>
+        <input type="text" id="price" name="price" required/>
+    </div>
+    <div>
+        <label for="category">Thể loại: </label>
+        <select id="category" th:field="*{category}" required>
+            <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}"></option>
+        </select>
+    </div>
+    <div>
+        <label for="image">Image</label>
+        <input type="file" id="image" name="image" required/>
+    </div>
+
+    <input type="submit" value="Save"/>
+</form>
+</body>
+</html>
