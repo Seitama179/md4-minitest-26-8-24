@@ -12,10 +12,11 @@ public interface IGenerateService<T> {
     Page<T> findAll(Pageable pageable);
 
     Iterable<T> findAll();
-//    void save(T t);
-//
-//    Optional<T> findById(Long id);
-//
+
+    void save(T t);
+
+    Optional<T> findById(Long id);
+
     void update(Long id, T t);
 
     void remove(Long id);

@@ -56,9 +56,7 @@ ModelAndView modelAndView = new ModelAndView("book/create");
     public ModelAndView save(BookForm bookForm) {
         ModelAndView modelAndView = new ModelAndView("redirect:/books");
         MultipartFile file = bookForm.getImage();
-
         String fileName = file.getOriginalFilename();
-
         try {
             FileCopyUtils.copy(file.getBytes(), new File(upload + fileName));
         } catch (IOException e) {
@@ -74,7 +72,6 @@ ModelAndView modelAndView = new ModelAndView("book/create");
             book.setImage(fileName);
             bookService.save(book);
             modelAndView.addObject("message", "Tạo mới thành công!");
-
         }
         return modelAndView;
     }

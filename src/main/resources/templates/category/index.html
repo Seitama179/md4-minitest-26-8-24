@@ -3,11 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Book Category</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+
+        }
+        table, th, td {
+            border: 1px solid black;
+        }
+        th, td {
+            text-align: center;
+        }
+        h2 {
+            background-color: blue;
+            color: white;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
 <h2>Thể loại sách</h2>
 <p><a th:href="@{/books}">Danh mục sách</a></p>
-<p><a th:href="@{/books/create}" >Thêm mới</a></p>
+<p><a th:href="@{/books/categories/create}" >Thêm mới</a></p>
 <div id="message">
     <p th:text="${message}"></p>
 </div>
@@ -23,9 +46,8 @@
     <tr th:each="c, cStatus : ${categories}">
         <td th:text="${cStatus.count}"></td>
         <td><a th:href="@{/books/categories/detail/{id}(id=${c.id})}" th:text="${c.name}"></a></td>
-
         <td>
-            <button th:onclick="'window.location.href = \'' +@{/books/edit/{id}(id=${c.id})} + '\''">Sửa</button>
+            <button th:onclick="'window.location.href = \'' +@{/books/categories/edit/{id}(id=${c.id})} + '\''">Sửa</button>
             <button th:onclick="'confirmDelete(' + ${c.id} + ')'">Xoá</button>
         </td>
     </tr>
@@ -33,10 +55,10 @@
 </table>
 
 <a class="btn btn-primary" th:if="${categories.hasPrevious()}"
-   th:href="@{/books(page=${categories.number - 1})}">Previous</a>
+   th:href="@{/books/categories(page=${categories.number - 1})}">Previous</a>
 <span th:text="${categories.number + 1}"></span> | <span th:text="${categories.totalPages}"></span>
 <a class="btn btn-primary" th:if="${categories.hasNext()}"
-   th:href="@{/categories(page=${categories.number + 1})}">Next</a>
+   th:href="@{/books/categories(page=${categories.number + 1})}">Next</a>
 
 <script>
     function confirmDelete(bookId) {

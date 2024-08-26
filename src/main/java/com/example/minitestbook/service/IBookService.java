@@ -8,9 +8,5 @@ import java.util.Optional;
 
 
 public interface IBookService extends IGenerateService<Book> {
-    void save(Book book);
-
-    Optional<Book> findById(Long id);
-
     Page<Book> findAllByNameContaining(Pageable pageable, String name);
 }
