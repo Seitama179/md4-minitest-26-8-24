@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm thể loại</title>
+</head>
+<body>
+<h2>Thêm thể loại</h2>
+<p><a th:href="@{/books/categories}">Thể loại sách</a></p>
+<div id="form">
+    <form th:action="@{/books/categories/create}" th:object="${category}"
+          method="POST" novalidate="novalidate">
+        <input type="hidden" th:field="*{id}"/>
+        <div>
+            <label for="name">Tên: </label>
+            <input type="text" id="name" th:field="*{name}"/>
+        </div>
+        <input type="submit" value="Save"/>
+    </form>
+</div>
+</body>
+</html>

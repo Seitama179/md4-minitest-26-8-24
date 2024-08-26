@@ -14,6 +14,7 @@ import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,8 +54,9 @@ ModelAndView modelAndView = new ModelAndView("book/create");
     private String upload;
 
     @PostMapping("/create")
-    public ModelAndView save(BookForm bookForm) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/books");
+    public String save(@ModelAttribute("book") BookForm bookForm,
+                       RedirectAttributes redirectAttributes) {
+        ModelAndView modelAndView = new ModelAndView("book/index");
         MultipartFile file = bookForm.getImage();
         String fileName = file.getOriginalFilename();
         try {
@@ -71,34 +73,33 @@ ModelAndView modelAndView = new ModelAndView("book/create");
             book.setCategory(bookForm.getCategory());
             book.setImage(fileName);
             bookService.save(book);
-            modelAndView.addObject("message", "Tạo mới thành công!");
+            redirectAttributes.addFlashAttribute("message", "Tạo mới thành công!");
         }
-        return modelAndView;
+        return "redirect:/books";
     }
 
 //    @PostMapping("/create")
-//    public ModelAndView saveBook(@ModelAttribute Book book,
-//                                 @RequestParam("image") MultipartFile imageFile) {
-//        ModelAndView modelAndView = new ModelAndView("redirect:/books");
-//        if (!imageFile.isEmpty()) {
-//            String imageName = imageFile.getOriginalFilename();
-//            try {
-//                File imageDirectory = new File(upload);
-//                if (!imageDirectory.exists()) {
-//                    imageDirectory.mkdirs();
-//                }
-//                File imagePath = new File(imageDirectory, imageName);
-//                imageFile.transferTo(imagePath);
-//                book.setImage(imageName);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//                modelAndView.addObject("message", "Lỗi khi lưu hình ảnh!");
-//                return modelAndView;
-//            }
+//    public ModelAndView save(BookForm bookForm) {
+//        ModelAndView modelAndView = new ModelAndView("book/index");
+//        MultipartFile file = bookForm.getImage();
+//        String fileName = file.getOriginalFilename();
+//        try {
+//            FileCopyUtils.copy(file.getBytes(), new File(upload + fileName));
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
 //        }
+//        finally {
+//            Book book = new Book();
+//            book.setId(bookForm.getId());
+//            book.setName(bookForm.getName());
+//            book.setAuthor(bookForm.getAuthor());
+//            book.setPrice(bookForm.getPrice());
+//            book.setCategory(bookForm.getCategory());
+//            book.setImage(fileName);
 //            bookService.save(book);
 //            modelAndView.addObject("message", "Tạo mới thành công!");
-//            return modelAndView;
+//        }
+//        return modelAndView;
 //    }
 
     @GetMapping("/detail/{id}")
@@ -112,7 +113,6 @@ ModelAndView modelAndView = new ModelAndView("book/create");
             return new ModelAndView("error_404");
         }
     }
-
 
     @GetMapping("/edit/{id}")
     public ModelAndView edit(@PathVariable Long id) {
@@ -143,17 +143,14 @@ ModelAndView modelAndView = new ModelAndView("book/create");
     }
 
     @GetMapping("/delete/{id}")
-    public ModelAndView delete(@PathVariable Long id, @PageableDefault(value = 5) Pageable pageable) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/books");
+    public String delete(@PathVariable Long id, RedirectAttributes redirect) {
         bookService.remove(id);
-        Page<Book> books = bookService.findAll(pageable);
-        modelAndView.addObject("books", books);
-        modelAndView.addObject("message", "Delete customer successfully");
-        return modelAndView;
+        redirect.addFlashAttribute("message", "Xóa thành công!");
+        return "redirect:/books";
     }
 
     @PostMapping("/search")
-    public ModelAndView searchBlog(@RequestParam("search") Optional<String> search,
+    public ModelAndView findBookByName(@RequestParam("search") Optional<String> search,
                                    @PageableDefault(value = 5) Pageable pageable){
         Page<Book> books;
         if(search.isPresent()){
@@ -162,7 +159,7 @@ ModelAndView modelAndView = new ModelAndView("book/create");
             books = bookService.findAll(pageable);
         }
         ModelAndView modelAndView = new ModelAndView("book/index");
-        modelAndView.addObject("blogs", books);
+        modelAndView.addObject("books", books);
         return modelAndView;
     }
 }

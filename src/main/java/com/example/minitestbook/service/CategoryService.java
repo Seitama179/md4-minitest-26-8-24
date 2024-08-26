@@ -1,6 +1,8 @@
 package com.example.minitestbook.service;
 
 import com.example.minitestbook.model.Category;
+import com.example.minitestbook.model.dto.CategoryCountBookDTO;
+import com.example.minitestbook.model.dto.ICountBook;
 import com.example.minitestbook.repository.ICategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -41,7 +43,11 @@ public class CategoryService implements ICategoryService {
 
     @Override
     public void remove(Long id) {
-        categoryRepository.deleteById(id);
+        categoryRepository.deleteCategory(id);
     }
 
+    @Override
+    public Iterable<ICountBook> getNumberBook() {
+        return categoryRepository.getNumberBook();
+    }
 }

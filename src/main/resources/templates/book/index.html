@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head >
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -18,20 +18,61 @@
         }
         table, th, td {
             border: 1px solid black;
+
         }
         th, td {
             text-align: center;
+            border: 1px solid #0828aa;
+            padding: 8px;
         }
+        th{background-color: #4CAF50;}
         h2 {
             background-color: blue;
             color: white;
+            text-align: center;
+        }
+
+        input[type=text],input[type=email]{
+            width: 80%;
+            padding: 12px 0;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type=submit] {
+            width: 300px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        input[type=submit]:hover {
+            background-color: #45a049;
+        }
+
+        #form {
+            width: 500px;
+            border-radius: 5px;
+            background-color: #f2f2f2;
+            padding: 20px;
+        }
+
+        #page {
             text-align: center;
         }
     </style>
 </head>
 <body>
 <h2>Danh mục sách</h2>
-<div style="margin-bottom: 10px; margin-left: 100px">
+<div >
     <form th:action="@{/books/search}" method="post">
         <label><input type="text" name="search" placeholder="Search by name"></label>
         <button type="submit" class="btn btn-primary">Search</button>
@@ -69,11 +110,13 @@
     </tr>
 </table>
 
-<a class="btn btn-primary" th:if="${books.hasPrevious()}"
-   th:href="@{/books(page=${books.number - 1})}">Previous</a>
-<span th:text="${books.number + 1}"></span> | <span th:text="${books.totalPages}"></span>
-<a class="btn btn-primary" th:if="${books.hasNext()}"
-   th:href="@{/books(page=${books.number + 1})}">Next</a>
+<div id="page">
+    <a class="btn btn-primary" th:if="${books.hasPrevious()}"
+       th:href="@{/books(page=${books.number - 1})}">Previous</a>
+    <span th:text="${books.number + 1}"></span> | <span th:text="${books.totalPages}"></span>
+    <a class="btn btn-primary" th:if="${books.hasNext()}"
+       th:href="@{/books(page=${books.number + 1})}">Next</a>
+</div>
 
 <script>
     function confirmDelete(bookId) {
