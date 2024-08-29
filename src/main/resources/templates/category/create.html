@@ -6,9 +6,9 @@
 </head>
 <body>
 <h2>Thêm thể loại</h2>
-<p><a th:href="@{/books/categories}">Thể loại sách</a></p>
+<p><a th:href="@{/categories}">Thể loại sách</a></p>
 <div id="form">
-    <form th:action="@{/books/categories/create}" th:object="${category}"
+    <form th:action="@{/categories/create}" th:object="${category}"
           method="POST" novalidate="novalidate">
         <input type="hidden" th:field="*{id}"/>
         <div>

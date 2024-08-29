@@ -1,5 +1,6 @@
 package com.example.minitestbook.controller;
 
+import com.example.minitestbook.model.Book;
 import com.example.minitestbook.model.Category;
 import com.example.minitestbook.model.dto.ICountBook;
 import com.example.minitestbook.service.BookService;
@@ -16,7 +17,7 @@ import java.util.Optional;
 
 
 @Controller
-@RequestMapping("/books/categories")
+@RequestMapping("/categories")
 public class CategoryController {
     private final CategoryService categoryService;
     private final BookService bookService;
@@ -46,14 +47,14 @@ public class CategoryController {
                                RedirectAttributes redirectAttributes){
         categoryService.save(category);
         redirectAttributes.addFlashAttribute("message", "Tạo mới thành công!");
-        return "redirect:/books/categories";
+        return "redirect:/categories";
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteCategory(@PathVariable Long id, Model model) {
+    public String deleteCategory(@PathVariable Long id, RedirectAttributes redirect) {
         categoryService.remove(id);
-        model.addAttribute("categories", categoryService.findAll());
-        return "/category/index";
+        redirect.addFlashAttribute("message", "Xóa thành công!");
+        return "redirect:/categories";
     }
 
     @GetMapping("/edit/{id}")
@@ -72,8 +73,15 @@ public class CategoryController {
                                RedirectAttributes redirect){
         categoryService.save(category);
         redirect.addAttribute("message", "Sửa thành công");
-        return "redirect:/books/categories";
+        return "redirect:/categories";
     }
 
+    @GetMapping("/detail/{id}")
+    public String findBooksByCategory(@PathVariable Long id,@PageableDefault(value = 5) Pageable pageable,
+                                      RedirectAttributes redirectAttributes){
+        Page<Book> books = categoryService.findByCategory(id, pageable);
+        redirectAttributes.addAttribute("books", books);
+        return "redirect:/books";
+    }
 
 }

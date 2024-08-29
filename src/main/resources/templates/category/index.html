@@ -29,17 +29,12 @@
             color: white;
             text-align: center;
         }
-
-        #count {
-            border-style: none;
-            border-collapse: collapse;
-        }
     </style>
 </head>
 <body>
 <h2>Thể loại sách</h2>
 <p><a th:href="@{/books}">Danh mục sách</a></p>
-<p><a th:href="@{/books/categories/create}">Thêm mới</a></p>
+<p><a th:href="@{/categories/create}">Thêm mới</a></p>
 <div id="message">
     <p th:text="${message}"></p>
 </div>
@@ -54,9 +49,9 @@
     <tbody>
     <tr th:each="c, cStatus : ${categories}">
         <td th:text="${cStatus.count}"></td>
-        <td><a th:href="@{/books/categories/detail/{id}(id=${c.id})}" th:text="${c.name}"></a></td>
+        <td><a th:href="@{/categories/detail/{id}(id=${c.id})}" th:text="${c.name}"></a></td>
         <td>
-            <button th:onclick="'window.location.href = \'' +@{/books/categories/edit/{id}(id=${c.id})} + '\''">Sửa</button>
+            <button th:onclick="'window.location.href = \'' +@{/categories/edit/{id}(id=${c.id})} + '\''">Sửa</button>
             <button th:onclick="'confirmDelete(' + ${c.id} + ')'">Xoá</button>
         </td>
     </tr>
@@ -64,30 +59,36 @@
 </table>
 
 <a class="btn btn-primary" th:if="${categories.hasPrevious()}"
-   th:href="@{/books/categories(page=${categories.number - 1})}">Previous</a>
+   th:href="@{/categories(page=${categories.number - 1})}">Previous</a>
 <span th:text="${categories.number + 1}"></span> | <span th:text="${categories.totalPages}"></span>
 <a class="btn btn-primary" th:if="${categories.hasNext()}"
-   th:href="@{/books/categories(page=${categories.number + 1})}">Next</a>
+   th:href="@{/categories(page=${categories.number + 1})}">Next</a>
 
-<table id="count">
-    <thead>
-    <tr>
-        <th>Thể loại: </th>
-        <th>Số lượng: </th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="categories, typeStat : ${category1}">
-        <td th:text="${categories.getName()}"></td>
-        <td th:text="${categories.getNumber()}"></td>
-    </tr>
-    </tbody>
-</table>
+<!--<table id="count">-->
+<!--    <thead>-->
+<!--    <tr>-->
+<!--        <th>Thể loại: </th>-->
+<!--        <th>Số lượng: </th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+<!--    <tbody>-->
+<!--    <tr th:each="categories, typeStat : ${category1}">-->
+<!--        <td th:text="${categories.getName()}"></td>-->
+<!--        <td th:text="${categories.getNumber()}"></td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
+<!--</table>-->
+
+
+<div id="count" th:each="categories, typeStat : ${category1}">
+    <p th:text="${categories.getName()} + ': ' + ${categories.getNumber()}"></p>
+</div>
+
 
 <script>
     function confirmDelete(bookId) {
         if (confirm("Bạn có chắc chắn muốn xóa loại sách này không?")) {
-            window.location.href = "/books/delete/" + bookId;
+            window.location.href = "/categories/delete/" + bookId;
         }
     }
 </script>

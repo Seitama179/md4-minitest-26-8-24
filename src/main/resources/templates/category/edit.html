@@ -6,10 +6,10 @@
 </head>
 <body>
 <h2>Chỉnh sửa thể loại sách</h2>
-<p><a th:href="@{/books/categories}">Thể loại sách</a></p>
+<p><a th:href="@{/categories}">Thể loại sách</a></p>
 
 <div id="form">
-    <form th:action="@{/books/categories/update}" th:object="${category}"
+    <form th:action="@{/categories/update}" th:object="${category}"
           method="post" novalidate="novalidate" enctype="multipart/form-data">
         <input type="hidden" th:field="*{id}" />
         <div>

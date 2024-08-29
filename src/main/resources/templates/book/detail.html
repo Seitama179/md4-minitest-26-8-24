@@ -1,31 +1,52 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="/layout :: head">
+<head>
     <meta charset="UTF-8">
-    <title>Xem thông tin sách</title>
+    <title th:text="${book.name}">Xem thông tin sách</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 20px;
+        }
+        .book-details {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+        .book-info {
+            display: flex;
+            flex-direction: column;
+        }
+        .book-info div {
+            margin-bottom: 10px;
+        }
+        img {
+            max-width: 250px;
+        }
+    </style>
 </head>
 <body>
 <h2>Xem thông tin sách</h2>
 <a th:href="@{/books}">Quay lại danh sách</a>
-<div>
-    <div>
-        <label>Tên: </label>
-        <label th:text="${book.name}"></label>
-    </div>
-    <div>
-        <label>Tác giả: </label>
-        <label th:text="${book.author}"></label>
-    </div>
-    <div>
-        <label>Giá: </label>
-        <label th:text="${#numbers.formatDecimal(book.price, 1, 'COMMA', 0, 'POINT')} + ' VND'"></label>
-    </div>
-    <div>
-        <label>Thể loại: </label>
-        <label th:text="${book.category.name}"></label>
-    </div>
-    <div>
-        <img width="200" th:src="@{'/i/' + ${book.image}}" alt="" src="">
+<div class="book-details">
+    <img th:src="@{'/i/' + ${book.image}}" alt="book-img">
+    <div class="book-info">
+        <div>
+            <label>Tên: </label>
+            <label th:text="${book.name}"></label>
+        </div>
+        <div>
+            <label>Tác giả: </label>
+            <label th:text="${book.author}"></label>
+        </div>
+        <div>
+            <label>Giá: </label>
+            <label th:text="${#numbers.formatDecimal(book.price, 1, 'COMMA', 0, 'POINT')} + ' VND'"></label>
+        </div>
+        <div>
+            <label>Thể loại: </label>
+            <label th:text="${book.category.name}"></label>
+        </div>
     </div>
 </div>
 

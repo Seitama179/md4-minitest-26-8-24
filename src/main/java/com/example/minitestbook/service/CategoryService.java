@@ -1,5 +1,6 @@
 package com.example.minitestbook.service;
 
+import com.example.minitestbook.model.Book;
 import com.example.minitestbook.model.Category;
 import com.example.minitestbook.model.dto.CategoryCountBookDTO;
 import com.example.minitestbook.model.dto.ICountBook;
@@ -49,5 +50,10 @@ public class CategoryService implements ICategoryService {
     @Override
     public Iterable<ICountBook> getNumberBook() {
         return categoryRepository.getNumberBook();
+    }
+
+    @Override
+    public Page<Book> findByCategory(Long id, Pageable pageable) {
+        return categoryRepository.findByCategory(id, pageable);
     }
 }
