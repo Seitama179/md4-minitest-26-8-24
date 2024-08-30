@@ -3,8 +3,8 @@ package com.example.minitestbook.controller;
 import com.example.minitestbook.model.Book;
 import com.example.minitestbook.model.BookForm;
 import com.example.minitestbook.model.Category;
-import com.example.minitestbook.service.IBookService;
-import com.example.minitestbook.service.ICategoryService;
+import com.example.minitestbook.service.book.IBookService;
+import com.example.minitestbook.service.category.ICategoryService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -45,7 +45,7 @@ public class BookController {
 
     @GetMapping("/create")
     public ModelAndView create() {
-ModelAndView modelAndView = new ModelAndView("book/create");
+        ModelAndView modelAndView = new ModelAndView("book/create");
         modelAndView.addObject("books", new Book());
         return modelAndView;
     }
@@ -160,6 +160,16 @@ ModelAndView modelAndView = new ModelAndView("book/create");
         }
         ModelAndView modelAndView = new ModelAndView("book/index");
         modelAndView.addObject("books", books);
+        return modelAndView;
+    }
+
+    @GetMapping("/category")
+    public ModelAndView searchByCategory(@RequestParam("categoryId") Long categoryId, @PageableDefault(value = 5) Pageable pageable) {
+        Page<Book> books = bookService.findByCategoryId(categoryId, pageable);
+        ModelAndView modelAndView = new ModelAndView("book/index");
+        modelAndView.addObject("books", books);
+        Iterable<Category> categories = categoryService.findAll();
+        modelAndView.addObject("categories", categories);
         return modelAndView;
     }
 }

@@ -1,4 +1,4 @@
-package com.example.minitestbook.service;
+package com.example.minitestbook.service.book;
 
 import com.example.minitestbook.model.Book;
 import com.example.minitestbook.repository.IBookRepository;
@@ -36,6 +36,11 @@ public class BookService implements IBookService {
     @Override
     public Page<Book> findAllByNameContaining(Pageable pageable, String name) {
         return bookRepository.findAllByNameContaining(pageable, name);
+    }
+
+    @Override
+    public Page<Book> findByCategoryId(Long categoryId, Pageable pageable) {
+        return bookRepository.findByCategoryId(categoryId, pageable);
     }
 
     @Override

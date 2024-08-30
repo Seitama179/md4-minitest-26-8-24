@@ -68,16 +68,33 @@
         #page {
             text-align: center;
         }
+        .page-btn {
+            padding: 10px 10px;
+            border: 1px solid black;
+            cursor: pointer;
+            background-color: white;
+            color: black;
+        }
     </style>
 </head>
 <body>
-<h2>Danh mục sách</h2>
+<h2><a style="text-decoration: none; color: white" href="/books">Danh mục sách</a></h2>
 <div >
     <form th:action="@{/books/search}" method="post">
-        <label><input type="text" name="search" placeholder="Search by name"></label>
-        <button type="submit" class="btn btn-primary">Search</button>
+        <label><input type="text" name="search" placeholder="Tìm theo tên"></label>
+<!--        <button type="submit" class="btn btn-primary">Search</button>-->
     </form>
 </div>
+
+<form action="#" th:action="@{/books/category}" method="get">
+    <label for="category">Chọn thể loại:</label>
+    <select name="categoryId" id="category">
+        <option value="">--Chọn thể loại--</option>
+        <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+    </select>
+    <button type="submit">Tìm kiếm</button>
+</form>
+
 <p><a th:href="@{/categories}">Thể loại sách</a></p>
 <p><a th:href="@{/books/create}" >Thêm mới</a></p>
 <div id="message">
@@ -108,14 +125,14 @@
             <button th:onclick="'confirmDelete(' + ${book.id} + ')'">Xoá</button>
         </td>
     </tr>
-</table>
+</table><br>
 
 <div id="page">
-    <a class="btn btn-primary" th:if="${books.hasPrevious()}"
-       th:href="@{/books(page=${books.number - 1})}">Previous</a>
+    <a class="page-btn" th:if="${books.hasPrevious()}"
+       th:href="@{/books(page=${books.number - 1})}">&lt;</a>
     <span th:text="${books.number + 1}"></span> | <span th:text="${books.totalPages}"></span>
-    <a class="btn btn-primary" th:if="${books.hasNext()}"
-       th:href="@{/books(page=${books.number + 1})}">Next</a>
+    <a class="page-btn" th:if="${books.hasNext()}"
+       th:href="@{/books(page=${books.number + 1})}">&gt;</a>
 </div>
 
 <script>
