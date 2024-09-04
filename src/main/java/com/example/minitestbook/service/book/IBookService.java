@@ -10,4 +10,6 @@ public interface IBookService extends IGenerateService<Book> {
     Page<Book> findAllByNameContaining(Pageable pageable, String name);
 
     Page<Book> findByCategoryId(Long categoryId, Pageable pageable);
+
+    boolean existsById(Long Id);
 }

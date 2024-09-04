@@ -21,4 +21,6 @@ public interface IBookRepository extends PagingAndSortingRepository<Book, Long> 
     Page<Book> findAllByNameContaining(Pageable pageable, String name);
 
     Page<Book> findByCategoryId(Long categoryId, Pageable pageable);
+
+    boolean existsById(Long id);
 }

@@ -39,9 +39,20 @@ public class AppSecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.formLogin(Customizer.withDefaults())
+        httpSecurity.formLogin(form -> form
+                        .defaultSuccessUrl("/books", true)
+                        .permitAll()
+                )
+                .exceptionHandling(exception -> exception
+                        .accessDeniedPage("/accessDenied"))
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login?logout")
+                        .permitAll()
+                )
                 .authorizeHttpRequests(
                         author -> author.requestMatchers( "/error_404", "/css/**", "/js/**", "/images/**").permitAll()
+                                .requestMatchers("/books/create", "/books/edit/**", "/books/delete/**").hasRole("ADMIN")
                                 .anyRequest().authenticated()
                 );
 //                .authorizeHttpRequests(

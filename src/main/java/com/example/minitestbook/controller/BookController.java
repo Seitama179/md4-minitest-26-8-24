@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Optional;
 
 @Controller
@@ -164,9 +166,21 @@ public class BookController {
     }
 
     @GetMapping("/category")
-    public ModelAndView searchByCategory(@RequestParam("categoryId") Long categoryId, @PageableDefault(value = 5) Pageable pageable) {
-        Page<Book> books = bookService.findByCategoryId(categoryId, pageable);
+    public ModelAndView searchByCategory(@RequestParam(value = "categoryId", required = false) Long categoryId, @PageableDefault(value = 5) Pageable pageable) {
+        Page<Book> books;
         ModelAndView modelAndView = new ModelAndView("book/index");
+        if (categoryId == null) {
+            books = bookService.findAll(pageable);
+            modelAndView.addObject("message", "Bạn chưa chọn thể loại. Hiển thị toàn bộ sách.");
+        } else if (!bookService.existsById(categoryId)) {
+            books = Page.empty(); // Trả về danh sách trống
+            modelAndView.addObject("message", "Thể loại không tồn tại. Vui lòng chọn thể loại khác.");
+        } else {
+            books = bookService.findByCategoryId(categoryId, pageable);
+            if (books.isEmpty()) {
+                modelAndView.addObject("message", "Không có sách nào thuộc thể loại này.");
+            }
+        }
         modelAndView.addObject("books", books);
         Iterable<Category> categories = categoryService.findAll();
         modelAndView.addObject("categories", categories);

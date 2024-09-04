@@ -44,6 +44,11 @@ public class BookService implements IBookService {
     }
 
     @Override
+    public boolean existsById(Long Id) {
+        return bookRepository.existsById(Id);
+    }
+
+    @Override
     public void update(Long id, Book book) {
         bookRepository.save(book);
     }
